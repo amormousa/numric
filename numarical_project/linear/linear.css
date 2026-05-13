@@ -1,0 +1,165 @@
+/* ============================
+   PAGE SPACING IMPROVEMENTS
+   ============================ */
+
+/* More breathing room overall */
+body {
+  padding: 40px 18px;
+}
+
+/* Header spacing */
+.app-header {
+  margin-bottom: 36px;
+}
+
+.app-header h1 {
+  margin-bottom: 12px;
+}
+
+/* Layout gap */
+.layout {
+  gap: 28px;
+}
+
+/* ============================
+   CARD SPACING
+   ============================ */
+
+.card {
+  padding: 26px;
+  border-radius: 20px;
+}
+
+/* Sticky form spacing */
+.form-card {
+  top: 24px;
+}
+
+/* Section titles */
+.section-title {
+  margin-bottom: 20px;
+}
+
+/* ============================
+   FORM SPACING
+   ============================ */
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+/* Better input breathing */
+input,
+select {
+  padding: 13px 14px;
+}
+
+/* Matrix input rows */
+#matrixInputs {
+  margin-top: 10px;
+}
+
+#matrixInputs > div {
+  margin-bottom: 8px;
+}
+
+/* Matrix inputs themselves */
+#matrixInputs input {
+  width: 52px;
+  padding: 8px;
+  text-align: center;
+}
+
+/* RHS (b vector) spacing */
+#matrixInputs input[id^="b-"] {
+  margin-left: 14px !important;
+}
+
+/* Buttons spacing */
+.button-row {
+  margin-top: 26px;
+  gap: 12px;
+}
+
+/* ============================
+   OUTPUT SECTION
+   ============================ */
+
+/* Root box spacing */
+.result-root {
+  margin-bottom: 24px;
+  padding: 20px;
+}
+
+/* Stats spacing */
+.stats-grid {
+  margin-bottom: 26px;
+  gap: 14px;
+}
+
+/* Step panel */
+.step-panel {
+  margin-bottom: 22px;
+  padding: 18px;
+}
+
+/* Step text spacing */
+#stepDesc {
+  margin-bottom: 14px;
+}
+
+/* Controls spacing */
+.step-controls {
+  margin-top: 10px;
+  gap: 10px;
+}
+
+/* ============================
+   MATRIX VIEW
+   ============================ */
+
+#matrixView {
+  margin-top: 12px;
+}
+
+/* Improve matrix readability */
+#matrixView table {
+  margin-top: 10px;
+}
+
+#matrixView td {
+  padding: 10px 12px;
+}
+
+/* ============================
+   EMPTY STATE
+   ============================ */
+
+.empty-state {
+  padding: 50px 20px;
+}
+
+/* ============================
+   MOBILE IMPROVEMENTS
+   ============================ */
+
+@media (max-width: 980px) {
+  .layout {
+    gap: 20px;
+  }
+}
+
+@media (max-width: 640px) {
+  body {
+    padding: 22px 12px;
+  }
+
+  .card {
+    padding: 18px;
+  }
+
+  #matrixInputs input {
+    width: 42px;
+    padding: 6px;
+  }
+}

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nonlinear Equation Solver</title>
+  <link rel="stylesheet" href="./style.css">
+  <script>
+    // Frontend-only protection: if user is not logged in, redirect to auth page.
+    // This uses localStorage key 'loggedInUser' that auth/auth.js sets on successful login.
+    try{
+      const user = localStorage.getItem('loggedInUser');
+      if(!user){
+        // delay tiny bit to allow this file to be served from nested paths
+        const base = new URL(window.location.href);
+        window.location.replace('./auth/auth.html');
+      }
+    }catch(e){ /* ignore in environments without localStorage */ }
+  </script>
+</head>
+
+<body>
+  <main class="container">
+    <header class="app-header">
+      <h1>Nonlinear Equation Solver</h1>
+      <p>Solve equations using the Bisection Method or False Position Method.</p>
+      <div style="position:absolute;right:20px;top:18px">
+        <button onclick="window.appAuth && window.appAuth.logout && window.appAuth.logout()" class="btn-ghost">Logout</button>
+      </div>
+    </header>
+
+    <section class="layout">
+      <!-- Input Card -->
+      <aside class="card form-card">
+        <h2 class="section-title">Input Parameters</h2>
+
+        <form id="solverForm" novalidate>
+          <div class="form-group">
+            <label for="method">Numerical Method</label>
+            <select id="method">
+              <option value="bisection">Bisection Method</option>
+              <option value="false-position">False Position Method</option>
+              <option value="newton">Newton Method</option>
+              <option value="secant">Secant Method</option>
+              <option value="fixed_point">Fixed Point Method</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="equation">Equation f(x)</label>
+            <input
+              type="text"
+              id="equation"
+              placeholder="Example: 4*x^3 - 6*x^2 + 7*x - 2.3"
+              value="4*x^3 - 6*x^2 + 7*x - 2.3"
+            />
+            <small class="hint">
+              Use <strong>x</strong> as the variable. Supported functions include
+              sin, cos, tan, sqrt, abs, log, ln, exp.
+            </small>
+          </div>
+
+          <div class="form-group">
+            <label for="xl">Lower Bound xl</label>
+            <input type="number" id="xl" step="any" value="0" />
+          </div>
+
+          <div class="form-group">
+            <label for="xu">Upper Bound xu</label>
+            <input type="number" id="xu" step="any" value="1" />
+          </div>
+
+          <div class="form-group" id="x0-group" style="display:none">
+            <label for="x0">Initial Guess x0</label>
+            <input type="number" id="x0" step="any" value="1.5" />
+            <small class="hint">Initial guess used by Newton's method.</small>
+          </div>
+
+          <div class="form-group" id="x1-group" style="display:none">
+            <label for="x1">Initial Guess x1</label>
+            <input type="number" id="x1" step="any" value="2.0" />
+            <small class="hint">Second initial guess used by the Secant method.</small>
+          </div>
++
+          <div class="form-group" id="g-group" style="display:none">
+            <label for="gfunc">Function g(x) (for Fixed Point)</label>
+            <input type="text" id="gfunc" placeholder="Example: cos(x)" value="cos(x)" />
++
+            <small class="hint">Provide g(x) such that x = g(x) at the root.</small>
+          </div>
+
+          <div class="form-group">
+            <label for="eps">Tolerance eps (%)</label>
+            <input type="number" id="eps" step="any" min="0" value="0.001" />
+            <small class="hint">
+              The algorithm stops when approximate relative error is less than eps.
+            </small>
+          </div>
+
+          <div class="button-row">
+            <button type="submit" class="btn-primary">Calculate</button>
+            <button type="button" id="resetBtn" class="btn-secondary">Reset</button>
+          </div>
+        </form>
+
+        <div id="message" class="message"></div>
+
+        <div class="formula-help">
+          <strong>Input examples:</strong><br />
+          <code>x^3 - x - 2</code><br />
+          <code>cos(x) - x</code><br />
+          <code>exp(-x) - x</code><br />
+          <code>sqrt(x) - 2</code>
+        </div>
+      </aside>
+
+      <!-- Output Card -->
+      <section class="card">
+        <div id="rootBox" class="result-root">
+          Final Root
+          <span id="finalRoot">---</span>
+        </div>
+
+        <div id="statsGrid" class="stats-grid">
+          <div class="stat-box">
+            <strong id="iterationCount">0</strong>
+            <small>Iterations</small>
+          </div>
+          <div class="stat-box">
+            <strong id="finalError">---</strong>
+            <small>Final Error %</small>
+          </div>
+          <div class="stat-box">
+            <strong id="finalFx">---</strong>
+            <small>f(root)</small>
+          </div>
+        </div>
+
+        <div id="graphCard" class="graph-card">
+          <h2 class="section-title">Function Graph</h2>
+          <canvas id="graphCanvas"></canvas>
+        </div>
+
+        <div id="stepPanel" class="step-panel">
+          <h3>Step-by-Step Visualization</h3>
+          <p id="stepText" class="step-text">No iteration selected.</p>
+
+          <div class="step-controls">
+            <button type="button" id="firstStepBtn" class="btn-secondary btn-small">First</button>
+            <button type="button" id="prevStepBtn" class="btn-secondary btn-small">Previous</button>
+            <button type="button" id="nextStepBtn" class="btn-secondary btn-small">Next</button>
+            <button type="button" id="lastStepBtn" class="btn-secondary btn-small">Last</button>
+            <button type="button" id="playBtn" class="btn-primary btn-small">Play</button>
+          </div>
+        </div>
+
+        <h2 class="section-title">Iteration Table</h2>
+
+        <div id="tableWrapper" class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Iteration</th>
+                <th>xl</th>
+                <th>xu</th>
+                <th>xr</th>
+                <th>f(xr)</th>
+                <th>Error %</th>
+              </tr>
+            </thead>
+            <tbody id="resultBody"></tbody>
+          </table>
+        </div>
+
+        <div id="emptyState" class="empty-state">
+          Enter an equation and click <strong>Calculate</strong> to see the results.
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script src="./index.js"></script>
+</body>
+</html>

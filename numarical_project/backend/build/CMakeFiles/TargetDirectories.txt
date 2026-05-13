@@ -1,0 +1,3 @@
+C:/Users/moham/Downloads/numarical_project/numarical_project/backend/build/CMakeFiles/numerical_backend.dir
+C:/Users/moham/Downloads/numarical_project/numarical_project/backend/build/CMakeFiles/edit_cache.dir
+C:/Users/moham/Downloads/numarical_project/numarical_project/backend/build/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,60 @@
+:root{
+  --bg1: #0f172a;
+  --glass: rgba(255,255,255,0.04);
+  --accent: linear-gradient(135deg,#7c3aed 10%,#06b6d4 90%);
+  --muted: #94a3b8;
+  --glass-2: rgba(255,255,255,0.03);
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  background: radial-gradient(1200px 600px at 10% 10%, rgba(99,102,241,0.14), transparent), radial-gradient(800px 500px at 90% 90%, rgba(6,182,212,0.08), transparent), var(--bg1);
+  color:#e6eef8; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+  overflow:hidden;
+}
+.bg{position:fixed;inset:0;z-index:0;pointer-events:none}
+.blob{position:absolute;border-radius:50%;filter:blur(60px);opacity:0.9;mix-blend-mode:screen}
+.b1{width:520px;height:520px;left:-120px;top:-80px;background:radial-gradient(circle,#7c3aed,transparent)}
+.b2{width:420px;height:420px;right:-60px;top:80px;background:radial-gradient(circle,#06b6d4,transparent);animation:float 8s ease-in-out infinite}
+.b3{width:300px;height:300px;left:50%;bottom:-80px;transform:translateX(-40%);background:radial-gradient(circle,#f97316,transparent);animation:float 10s ease-in-out infinite}
+@keyframes float{0%{transform:translateY(0)}50%{transform:translateY(-18px)}100%{transform:translateY(0)}}
+
+.auth-root{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px;z-index:2}
+.card{width:980px;max-width:96%;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:14px;padding:28px;display:grid;grid-template-columns:320px 1fr;gap:20px;backdrop-filter:blur(10px) saturate(120%);box-shadow:0 10px 30px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.04)}
+.brand{padding:18px}
+.brand h1{margin:0;font-size:28px;letter-spacing:-0.02em}
+.brand h1 span{background:linear-gradient(90deg,#fff 0%, #dbeafe 60%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.brand .tag{color:var(--muted);font-size:13px;margin-top:6px}
+
+.panels{position:relative;padding:18px;overflow:visible;min-height:340px}
+.panel{position:absolute;left:0;top:0;right:0;padding:18px;transition:transform .55s cubic-bezier(.2,.9,.28,1),opacity .45s ease;opacity:0;transform:translateX(40px);display:flex;flex-direction:column;gap:14px;pointer-events:none}
+.panel.active{opacity:1;transform:translateX(0);pointer-events:auto}
+.panel h2{margin:0;font-size:22px}
+.panel p{margin:0;color:var(--muted);font-size:13px}
+.field{margin-top:12px}
+.field label{display:block;color:var(--muted);font-size:13px;margin-bottom:8px}
+.field input{width:100%;padding:12px 14px;border-radius:10px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);color:#e6eef8;outline:none;transition:box-shadow .18s ease,transform .12s ease}
+.field input::placeholder{color:rgba(230,238,248,0.46)}
+.field input:focus{box-shadow:0 10px 26px rgba(124,58,237,0.12);transform:translateY(-2px)}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 18px;border-radius:10px;border:0;font-weight:600;cursor:pointer}
+.btn.primary{background:var(--accent);color:#fff;box-shadow:0 8px 30px rgba(124,58,237,0.12),0 0 28px rgba(6,182,212,0.04);transition:transform .15s cubic-bezier(.2,.9,.28,1),filter .12s,box-shadow .12s}
+.btn.primary:hover{transform:translateY(-3px);filter:brightness(1.04);box-shadow:0 18px 50px rgba(124,58,237,0.16),0 0 36px rgba(6,182,212,0.06)}
+
+.btn {cursor:pointer}
+.muted{color:var(--muted);font-size:13px;margin-top:10px}
+.panels .muted a{color:#a78bfa;text-decoration:none}
+
+.toast{position:fixed;right:28px;bottom:28px;background:linear-gradient(90deg,#111827,rgba(255,255,255,0.03));padding:12px 18px;border-radius:10px;color:#fff;box-shadow:0 8px 30px rgba(2,6,23,0.6);transform:translateY(30px);opacity:0;transition:all .36s cubic-bezier(.2,.9,.28,1)}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.success{border-left:4px solid #22c55e}
+.toast.error{border-left:4px solid #ef4444}
+.toast.warn{border-left:4px solid #f59e0b}
+
+@media (max-width:880px){
+  .card{grid-template-columns:1fr;}
+  .brand{display:flex;align-items:center;gap:12px}
+}
+
+/* small helper for subtle mouse following glow */
+.card::after{content:"";position:absolute;inset:0;border-radius:14px;pointer-events:none;background:radial-gradient(400px 200px at var(--mx,50%) var(--my,50%), rgba(255,255,255,0.02), transparent)}

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Linear System Solver</title>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="./linear.css">
+</head>
+
+<body>
+  <main class="container">
+    <header class="app-header">
+      <h1>Linear System Solver</h1>
+      <p>Step-by-step visualization for Gauss, Gauss-Jordan, Cramer, LU</p>
+    </header>
+
+    <section class="layout">
+      <!-- INPUT -->
+      <aside class="card form-card">
+        <h2 class="section-title">Input</h2>
+
+        <form id="solverForm">
+          <div class="form-group">
+            <label>Method</label>
+            <select id="method">
+              <option value="gauss">Gauss Elimination</option>
+              <option value="gauss-jordan">Gauss Jordan</option>
+              <option value="cramer">Cramer's Rule</option>
+              <option value="lu">LU Decomposition</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Matrix Size</label>
+            <input type="number" id="size" value="3" min="2" max="6"/>
+          </div>
+
+          <div id="matrixInputs"></div>
+
+          <div class="button-row">
+            <button class="btn-primary">Calculate</button>
+            <button type="button" id="resetBtn" class="btn-secondary">Reset</button>
+          </div>
+        </form>
+
+        <div id="message" class="message"></div>
+      </aside>
+
+      <!-- OUTPUT -->
+      <section class="card">
+        <div id="rootBox" class="result-root">
+          Solution Vector
+          <span id="finalRoot">---</span>
+        </div>
+
+        <div id="statsGrid" class="stats-grid">
+          <div class="stat-box">
+            <strong id="methodName">---</strong>
+            <small>Method</small>
+          </div>
+          <div class="stat-box">
+            <strong id="matrixSize">---</strong>
+            <small>Size</small>
+          </div>
+          <div class="stat-box">
+            <strong id="status">---</strong>
+            <small>Status</small>
+          </div>
+        </div>
+
+        <!-- STEP VISUALIZER -->
+        <div id="stepPanel" class="step-panel">
+          <h3>Matrix Transformation</h3>
+          <p id="stepDesc"></p>
+          <div id="matrixView"></div>
+
+          <div class="step-controls">
+            <button id="firstBtn" class="btn-secondary btn-small">First</button>
+            <button id="prevBtn" class="btn-secondary btn-small">Prev</button>
+            <button id="nextBtn" class="btn-secondary btn-small">Next</button>
+            <button id="lastBtn" class="btn-secondary btn-small">Last</button>
+            <button id="playBtn" class="btn-primary btn-small">Play</button>
+          </div>
+        </div>
+
+        <div id="emptyState" class="empty-state">
+          Enter matrix and click Calculate.
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script src="./index.js"></script>
+</body>
+</html>
