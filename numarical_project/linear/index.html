@@ -6,6 +6,12 @@
   <title>Linear System Solver</title>
   <link rel="stylesheet" href="../style.css">
   <link rel="stylesheet" href="./linear.css">
+  <script>
+    try{
+      const user = localStorage.getItem('loggedInUser');
+      if(!user) window.location.replace('../auth/auth.html');
+    }catch(e){}
+  </script>
 </head>
 
 <body>
@@ -13,6 +19,11 @@
     <header class="app-header">
       <h1>Linear System Solver</h1>
       <p>Step-by-step visualization for Gauss, Gauss-Jordan, Cramer, LU</p>
+      <div style="display:flex;gap:10px;justify-content:center;margin-top:12px">
+        <a href="../index.html" class="btn-ghost" style="text-decoration:none;font-size:0.85rem">Nonlinear Solver</a>
+        <a href="../analytics/index.html" class="btn-ghost" style="text-decoration:none;font-size:0.85rem">Analytics</a>
+        <a href="../auth/auth.html" class="btn-ghost" style="text-decoration:none;font-size:0.85rem">Auth</a>
+      </div>
     </header>
 
     <section class="layout">
@@ -91,6 +102,7 @@
     </section>
   </main>
 
+  <script src="../js/analytics.js"></script>
   <script src="./index.js"></script>
 </body>
 </html>

@@ -24,7 +24,9 @@
     <header class="app-header">
       <h1>Nonlinear Equation Solver</h1>
       <p>Solve equations using the Bisection Method or False Position Method.</p>
-      <div style="position:absolute;right:20px;top:18px">
+      <div style="position:absolute;right:20px;top:12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <a href="./analytics/index.html" class="btn-ghost" style="text-decoration:none;font-size:0.85rem">Analytics</a>
+        <a href="./linear/index.html" class="btn-ghost" style="text-decoration:none;font-size:0.85rem">Linear Solver</a>
         <button onclick="window.appAuth && window.appAuth.logout && window.appAuth.logout()" class="btn-ghost">Logout</button>
       </div>
     </header>
@@ -179,6 +181,7 @@
     </section>
   </main>
 
+  <script src="./js/analytics.js"></script>
   <script src="./index.js"></script>
 </body>
 </html>

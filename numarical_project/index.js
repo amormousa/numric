@@ -927,11 +927,25 @@ onMethodChange();
 
         const methodName = method === "bisection" ? "Bisection Method" : "False Position Method";
         showMessage(`${methodName} completed successfully.`, "success");
+
+        if (window.Analytics) {
+          window.Analytics.track('solver_run', {
+            method: method,
+            equation: equation,
+            iterations: data.rows.length,
+            converged: true,
+            error: data.rows[data.rows.length - 1]?.error
+          });
+        }
       } catch (error) {
         // Ensure form enabled
         Array.from(form.elements).forEach(el => el.disabled = false);
         clearResults();
         showMessage(error.message || "An unexpected error occurred.", "error");
+
+        if (window.Analytics) {
+          window.Analytics.track('solver_error', { method: methodInput.value, error: error.message });
+        }
       }
     });
 
@@ -943,17 +957,26 @@ onMethodChange();
       epsInput.value = "0.001";
       clearMessage();
       clearResults();
+      if (window.Analytics) window.Analytics.track('reset');
     });
+
+    function trackStep(step) {
+      if (window.Analytics && iterations.length) {
+        window.Analytics.track('step_navigate', { step: step + 1, total: iterations.length });
+      }
+    }
 
     firstStepBtn.addEventListener("click", () => {
       selectedStep = 0;
       renderStep();
+      trackStep(selectedStep);
     });
 
     prevStepBtn.addEventListener("click", () => {
       if (selectedStep > 0) {
         selectedStep--;
         renderStep();
+        trackStep(selectedStep);
       }
     });
 
@@ -961,12 +984,14 @@ onMethodChange();
       if (selectedStep < iterations.length - 1) {
         selectedStep++;
         renderStep();
+        trackStep(selectedStep);
       }
     });
 
     lastStepBtn.addEventListener("click", () => {
       selectedStep = iterations.length - 1;
       renderStep();
+      trackStep(selectedStep);
     });
 
     playBtn.addEventListener("click", () => {
@@ -1031,6 +1056,21 @@ onMethodChange();
         throw new Error("Tolerance eps must be a positive number.");
       }
     }
+
+// Logout: self-contained so it works even without auth.js loaded
+window.appAuth = {
+  logout: function(){
+    if (window.Analytics) {
+      window.Analytics.track('logout');
+    }
+    localStorage.removeItem('loggedInUser');
+    const toast = document.createElement('div');
+    toast.className = 'toast-fixed show';
+    toast.textContent = 'Signed out';
+    document.body.appendChild(toast);
+    setTimeout(function(){ window.location.replace('./auth/auth.html'); }, 500);
+  }
+};
 
 // Optional dev helper: if the page URL contains ?auto_test=1 the form will submit
 // automatically with the sample equation to speed manual verification.

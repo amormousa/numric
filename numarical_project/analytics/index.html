@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Analytics Dashboard</title>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="./analytics.css">
+  <script>
+    try{
+      const user = localStorage.getItem('loggedInUser');
+      if(!user) window.location.replace('../auth/auth.html');
+    }catch(e){}
+  </script>
+</head>
+<body>
+  <main class="container">
+    <header class="app-header">
+      <h1>Analytics Dashboard</h1>
+      <p>Usage statistics and event tracking for Numerical Project.</p>
+      <nav class="analytics-nav">
+        <a href="../index.html" class="btn-ghost">Nonlinear Solver</a>
+        <a href="../linear/index.html" class="btn-ghost">Linear Solver</a>
+        <a href="../auth/auth.html" class="btn-ghost">Auth</a>
+      </nav>
+    </header>
+
+    <section class="analytics-layout">
+      <div class="summary-grid" id="summaryGrid">
+        <div class="stat-card">
+          <span class="stat-value" id="totalEvents">0</span>
+          <span class="stat-label">Total Events</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value" id="solveCount">0</span>
+          <span class="stat-label">Calculations</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value" id="errorCount">0</span>
+          <span class="stat-label">Errors</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value" id="convergedCount">0</span>
+          <span class="stat-label">Converged</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value" id="avgIterations">0</span>
+          <span class="stat-label">Avg Iterations</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value" id="sessionDuration">0</span>
+          <span class="stat-label">Active Duration</span>
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+        <div class="card" id="methodsCard">
+          <h2 class="section-title">Methods Used</h2>
+          <div id="methodsChart" class="chart-area">Loading...</div>
+        </div>
+
+        <div class="card" id="pagesCard">
+          <h2 class="section-title">Page Views</h2>
+          <div id="pagesChart" class="chart-area">Loading...</div>
+        </div>
+
+        <div class="card" id="eventsByTypeCard">
+          <h2 class="section-title">Events by Type</h2>
+          <div id="eventsChart" class="chart-area">Loading...</div>
+        </div>
+
+        <div class="card" id="recentCard">
+          <h2 class="section-title">Recent Activity</h2>
+          <div id="recentActivity" class="recent-list">Loading...</div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button id="refreshBtn" class="btn-primary">Refresh</button>
+        <button id="clearBtn" class="btn-secondary" style="background:#fee2e2;color:#991b1b">Clear All Data</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="../js/analytics.js"></script>
+  <script src="./analytics.js"></script>
+</body>
+</html>

@@ -348,6 +348,28 @@ tbody tr.active-row {
   border-radius: 5px;
 }
 
+/* Fixed toast for cross-page notifications (e.g., logout) */
+.toast-fixed {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--success);
+  color: white;
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-weight: 600;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.toast-fixed.show {
+  opacity: 1;
+}
+
 @media (max-width: 980px) {
   .layout {
     grid-template-columns: 1fr;

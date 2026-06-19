@@ -94,13 +94,19 @@
 
     // login success: persist session
     localStorage.setItem('loggedInUser', JSON.stringify({ username: u.username, email: u.email }));
+    if (window.Analytics) window.Analytics.track('login', { username: u.username });
     showToast('Login successful — redirecting...', 'success');
     setTimeout(()=>{ window.location.replace('../index.html') }, 700);
   });
 
   // Expose logout helper on window for usage in other pages
   window.appAuth = {
-    logout: function(){ localStorage.removeItem('loggedInUser'); showToast('Signed out','success'); setTimeout(()=>{ window.location.replace('./auth/auth.html') },400) }
+    logout: function(){
+      if (window.Analytics) window.Analytics.track('logout');
+      localStorage.removeItem('loggedInUser');
+      showToast('Signed out','success');
+      setTimeout(()=>{ window.location.replace('./auth/auth.html') },400);
+    }
   };
 
   // subtle mouse follow effect for the card

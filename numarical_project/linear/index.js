@@ -390,9 +390,26 @@ form.addEventListener("submit", e => {
     stepPanel.classList.add("show");
     emptyState.style.display = "none";
 
+    if (window.Analytics) {
+      window.Analytics.track('solver_run', {
+        method: method,
+        type: 'linear',
+        size: A.length,
+        steps: steps.length
+      });
+    }
+
   } catch (err) {
     messageBox.textContent = err.message;
     messageBox.className = "message error";
+
+    if (window.Analytics) {
+      window.Analytics.track('solver_error', {
+        method: document.getElementById('method').value,
+        type: 'linear',
+        error: err.message
+      });
+    }
   }
 });
 
