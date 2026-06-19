@@ -4,6 +4,7 @@ const { JSDOM } = require('jsdom');
 const fetch = require('node-fetch');
 
 (async () => {
+  
   const root = path.resolve(__dirname, 'numarical_project');
   const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
   const dom = new JSDOM(html, { runScripts: 'dangerously', resources: 'usable' });
