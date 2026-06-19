@@ -14,6 +14,7 @@ function serveFile(req, res) {
     if (err) {
       res.writeHead(404);
       res.end('Not found');
+      
       return;
     }
     let contentType = 'text/html';
