@@ -6,6 +6,7 @@ const puppeteer = require('puppeteer');
 const PORT = 5500;
 const ROOT = path.resolve(__dirname);
 
+
 function serveFile(req, res) {
   let reqPath = decodeURIComponent(req.url.split('?')[0]);
   if (reqPath === '/') reqPath = '/index.html';
